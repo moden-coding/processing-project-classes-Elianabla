@@ -7,8 +7,10 @@ import java.util.ArrayList;
 public class App extends PApplet {
     boolean left;
     boolean right;
+    boolean space;
     Bubble firstOne;
     Player player;
+    Bullet bullet;
 
     ArrayList<Bubble> bubbles;
 
@@ -21,6 +23,7 @@ public class App extends PApplet {
 
     public void setup() {
         player = new Player(this);
+        bullet = new Bullet(xPosition,550,5,this);
         bubbles = new ArrayList<>();
         firstOne = new Bubble(150, 200, this);
 
@@ -59,7 +62,12 @@ public class App extends PApplet {
            player.moveRight();
         }
 
+        if (space){
+            bullet.shoot();
+        }
+
         player.update();
+        bullet.update();
        //player.display();
 
     }
@@ -71,12 +79,17 @@ public class App extends PApplet {
             } else if (keyCode == RIGHT && xPosition < 760) {
                 right = true;
             }
+
+            if (keyCode == ' ' ){
+                space = true;
+            }
         }
     } 
 
     public void keyReleased(){
         left = false;
         right = false;
+        // space = false;
     }
 
     public void bubbleMaker() {

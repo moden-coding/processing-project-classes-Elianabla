@@ -19,7 +19,13 @@ public class Bullet {
     }
 
     public void shoot(){
+        bulY-=bulSpeed;
         
+    }
+
+    public void update() {
+        canvas.fill(255, 0, 0);
+        canvas.circle(bulX, bulY, 20);
     }
 
 
