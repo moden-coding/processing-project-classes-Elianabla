@@ -26,6 +26,9 @@ public class Bubble {
        
     }
 
+     
+     
+
 
     public void update() {
         y+=speed;

@@ -23,9 +23,13 @@ public class Bullet {
         
     }
 
-    public void update() {
+ 
+
+    public void update(int x) {
         canvas.fill(255, 0, 0);
         canvas.circle(bulX, bulY, 20);
+        bulX  = x + 20;
+        
     }
 
 

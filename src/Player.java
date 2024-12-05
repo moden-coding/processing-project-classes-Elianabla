@@ -32,5 +32,9 @@ public class Player {
         canvas.square(x, y, 40);
     }
 
+    public int getX(){
+        return x;
+    }
+
    
 }

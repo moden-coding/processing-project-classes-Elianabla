@@ -13,6 +13,7 @@ public class App extends PApplet {
     Bullet bullet;
 
     ArrayList<Bubble> bubbles;
+    ArrayList<Bullet> bullets;
 
     int scene = 1;
     int xPosition = 385;
@@ -23,8 +24,9 @@ public class App extends PApplet {
 
     public void setup() {
         player = new Player(this);
-        bullet = new Bullet(xPosition,550,5,this);
+        bullet = new Bullet(player.getX() + 20,550,5,this);
         bubbles = new ArrayList<>();
+        bullets = new ArrayList<>();
         firstOne = new Bubble(150, 200, this);
 
     }
@@ -47,6 +49,11 @@ public class App extends PApplet {
                 }
             }
 
+            for (int i = 0; i < bullets.size(); i++){
+                Bullet b = bullets.get(i);
+
+            }
+
         }
 
 
@@ -64,10 +71,12 @@ public class App extends PApplet {
 
         if (space){
             bullet.shoot();
+            bulletMaker();
+          
         }
 
         player.update();
-        bullet.update();
+        bullet.update(player.getX());
        //player.display();
 
     }
@@ -97,5 +106,10 @@ public class App extends PApplet {
         int y = 20;
         Bubble bubble = new Bubble(x, y, this);
         bubbles.add(bubble);
+    }
+
+    public void bulletMaker(){
+        Bullet bullet = new Bullet(player.getX()+20, 550, 5, this);
+        bullets.add(bullet);
     }
 }
