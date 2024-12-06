@@ -5,6 +5,7 @@ public class Player {
     private int y;
     private int speed;
     private PApplet canvas;
+    private boolean left, right = false;
 
     public Player(PApplet canvas) {
         this.x = 385;
@@ -14,27 +15,38 @@ public class Player {
     }
 
     public void moveLeft() {
-       if (x>10){
-        x -= speed;
-       }
+        left = true;
 
     }
 
     public void moveRight() {
-        if (x<750){
-            x += speed;
-        }
-       
+        right = true;
+
     }
 
     public void update() {
+        if (left) {
+            if (x > 10) {
+                x -= speed;
+            }
+        }
+
+        if (right){
+            if (x < 750) {
+                x += speed;
+            }
+        }
         canvas.fill(255, 102, 180);
         canvas.square(x, y, 40);
+
     }
 
-    public int getX(){
+    public int getX() {
         return x;
     }
 
-   
+    public void stop() {
+
+    }
+
 }

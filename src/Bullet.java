@@ -25,10 +25,11 @@ public class Bullet {
 
  
 
-    public void update(int x) {
+    public void update() {
+        shoot(); 
         canvas.fill(255, 0, 0);
         canvas.circle(bulX, bulY, 20);
-        bulX  = x + 20;
+        
         
     }
 

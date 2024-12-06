@@ -10,13 +10,15 @@ public class App extends PApplet {
     boolean space;
     Bubble firstOne;
     Player player;
-    Bullet bullet;
+   
 
     ArrayList<Bubble> bubbles;
     ArrayList<Bullet> bullets;
 
     int scene = 1;
     int xPosition = 385;
+    int lastTimeShot = 0;
+    int cooldown = 700;
 
     public static void main(String[] args) {
         PApplet.main("App");
@@ -24,7 +26,7 @@ public class App extends PApplet {
 
     public void setup() {
         player = new Player(this);
-        bullet = new Bullet(player.getX() + 20,550,5,this);
+        // 
         bubbles = new ArrayList<>();
         bullets = new ArrayList<>();
         firstOne = new Bubble(150, 200, this);
@@ -49,10 +51,14 @@ public class App extends PApplet {
                 }
             }
 
-            for (int i = 0; i < bullets.size(); i++){
+            for (int i = 0; i < bullets.size();  i++) {
                 Bullet b = bullets.get(i);
+                b.update(); 
 
             }
+
+            
+            
 
         }
 
@@ -69,36 +75,44 @@ public class App extends PApplet {
            player.moveRight();
         }
 
-        if (space){
-            bullet.shoot();
-            bulletMaker();
-          
-        }
-
         player.update();
-        bullet.update(player.getX());
+       
        //player.display();
 
     }
 
     public void keyPressed() {
         if (scene == 1) {
-            if (keyCode == LEFT && xPosition > 10) {
-                left = true;
-            } else if (keyCode == RIGHT && xPosition < 760) {
-                right = true;
-            }
+            // if (keyCode == LEFT && xPosition > 10) {
+            //     left = true;
+            // } else if (keyCode == RIGHT && xPosition < 760) {
+            //     right = true;
+            // }
+
+            if (keyCode == LEFT){
+                player.moveLeft();
+
+            }else if (keyCode == RIGHT) {
+                player.moveRight();
+            //     right = true;
+            // }
 
             if (keyCode == ' ' ){
-                space = true;
+                
+                if (millis() - lastTimeShot >= cooldown) {  //used from chat gpt
+                    lastTimeShot = millis(); 
+                    bulletMaker();
+                }
+    
+                
             }
+        }
         }
     } 
 
     public void keyReleased(){
-        left = false;
-        right = false;
-        // space = false;
+        player.stop();
+        
     }
 
     public void bubbleMaker() {
