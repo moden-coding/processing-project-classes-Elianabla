@@ -46,7 +46,8 @@ public class Player {
     }
 
     public void stop() {
-
+        left = false;
+        right = false;
     }
 
 }

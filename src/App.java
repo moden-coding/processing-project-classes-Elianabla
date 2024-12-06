@@ -10,6 +10,7 @@ public class App extends PApplet {
     boolean space;
     Bubble firstOne;
     Player player;
+
    
 
     ArrayList<Bubble> bubbles;
@@ -19,6 +20,7 @@ public class App extends PApplet {
     int xPosition = 385;
     int lastTimeShot = 0;
     int cooldown = 700;
+    int life = 3;
 
     public static void main(String[] args) {
         PApplet.main("App");
@@ -48,6 +50,7 @@ public class App extends PApplet {
 
                 if (b.getY() >500) {
                     bubbles.remove(i);
+                    life--;
                 }
             }
 
@@ -57,7 +60,6 @@ public class App extends PApplet {
 
             }
 
-            
             
 
         }
@@ -93,7 +95,7 @@ public class App extends PApplet {
                 player.moveLeft();
 
             }else if (keyCode == RIGHT) {
-                player.moveRight();
+                player.moveRight(); }
             //     right = true;
             // }
 
@@ -106,7 +108,7 @@ public class App extends PApplet {
     
                 
             }
-        }
+        
         }
     } 
 
