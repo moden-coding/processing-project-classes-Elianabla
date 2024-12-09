@@ -21,6 +21,7 @@ public class App extends PApplet {
     int lastTimeShot = 0;
     int cooldown = 700;
     int life = 3;
+    int score = 0;
 
     public static void main(String[] args) {
         PApplet.main("App");
@@ -83,6 +84,7 @@ public class App extends PApplet {
                     if (dist<=20){
                         bubbles.remove(i);
                         bullets.remove(j);
+                        score+=10;
                     }
                 }   
 
@@ -111,6 +113,9 @@ public class App extends PApplet {
 
         }
 
+        color(0);
+        textSize(20);
+        text("Score: " + score, 20, 20);
 
 
         
