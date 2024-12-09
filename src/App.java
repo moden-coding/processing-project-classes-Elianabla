@@ -10,13 +10,13 @@ public class App extends PApplet {
     boolean space;
     Bubble firstOne;
     Player player;
-
-   
+    PImage lives;
+    PImage play;
 
     ArrayList<Bubble> bubbles;
     ArrayList<Bullet> bullets;
 
-    int scene = 1;
+    int scene = 0;
     int xPosition = 385;
     int lastTimeShot = 0;
     int cooldown = 700;
@@ -33,6 +33,9 @@ public class App extends PApplet {
         bullets = new ArrayList<>();
         firstOne = new Bubble(150, 200, this);
 
+        lives = loadImage("life.png");
+        play = loadImage("playreal.png");
+
     }
 
     public void settings() {
@@ -41,6 +44,13 @@ public class App extends PApplet {
 
     public void draw() {
         background(0, 0, 0);
+
+        if (scene == 0){
+            image(play, 0, 0);
+
+        }
+
+
         if (scene == 1) {
 
             for (int i = 0; i < bubbles.size(); i++) {
@@ -58,11 +68,47 @@ public class App extends PApplet {
                 Bullet b = bullets.get(i);
                 b.update(); 
 
+                if(b.getY()<30){
+                    bullets.remove(i);
+                }
+
             }
 
-            
+            for (int i = 0; i < bubbles.size(); i++) { //chat gpt helped with collision
+                Bubble b = bubbles.get(i);
+                for (int j = 0; j < bullets.size();  j++) {
+                    Bullet bul = bullets.get(j);
+
+                    float dist = dist(bul.getX(),bul.getY(), b.getX(),b.getY());
+                    if (dist<=20){
+                        bubbles.remove(i);
+                        bullets.remove(j);
+                    }
+                }
 
         }
+
+        if (life == 3){
+            image(lives, 650, 30, 20, 20);
+            image(lives, 690, 30, 20, 20);
+            image(lives, 730, 30, 20, 20);
+
+        }
+
+        if (life == 2){
+            image(lives, 650, 30, 20, 20);
+            image(lives, 690, 30, 20, 20);
+
+        }
+
+        if (life == 1){
+            image(lives, 650, 30, 20, 20);
+
+        }
+
+
+
+        
 
 
         if (frameCount % 90 == 0) {
@@ -78,6 +124,7 @@ public class App extends PApplet {
         }
 
         player.update();
+    }
        
        //player.display();
 
@@ -105,11 +152,12 @@ public class App extends PApplet {
                     lastTimeShot = millis(); 
                     bulletMaker();
                 }
-    
+            
                 
             }
         
         }
+    
     } 
 
     public void keyReleased(){
@@ -128,4 +176,14 @@ public class App extends PApplet {
         Bullet bullet = new Bullet(player.getX()+20, 550, 5, this);
         bullets.add(bullet);
     }
-}
+
+    public void mousePressed(){
+        if (scene == 0){
+            if (mouseX >= 260 && mouseX <= 541 && mouseY >= 220 && mouseY <= 323) {
+                scene = 1; // switch to the game scene
+            }
+
+        }
+    }
+
+    }

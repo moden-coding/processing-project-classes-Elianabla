@@ -30,9 +30,15 @@ public class Bullet {
         canvas.fill(255, 0, 0);
         canvas.circle(bulX, bulY, 20);
         
-        
     }
 
+    public int getX() {
+        return bulX;
+    }
+
+    public int getY() {
+        return bulY;
+    }
 
     
 }

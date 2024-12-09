@@ -34,6 +34,11 @@ public class Bubble {
         y+=speed;
     }
 
+    
+    public int getX() {
+        return x;
+    }
+
     public int getY() {
         return y;
     }
