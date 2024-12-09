@@ -84,14 +84,19 @@ public class App extends PApplet {
                         bubbles.remove(i);
                         bullets.remove(j);
                     }
-                }
+                }   
+
+
+
 
         }
+        
 
-        if (life == 3){
+        if (life == 3){ 
             image(lives, 650, 30, 20, 20);
             image(lives, 690, 30, 20, 20);
             image(lives, 730, 30, 20, 20);
+            System.out.println("hi");
 
         }
 
