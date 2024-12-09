@@ -19,7 +19,7 @@ public class App extends PApplet {
     int scene = 0;
     int xPosition = 385;
     int lastTimeShot = 0;
-    int cooldown = 700;
+    int cooldown = 500;
     int life = 3;
     int score = 0;
 
@@ -53,52 +53,12 @@ public class App extends PApplet {
 
 
         if (scene == 1) {
-
-            for (int i = 0; i < bubbles.size(); i++) {
-                Bubble b = bubbles.get(i);
-                b.display();
-                b.update();
-
-                if (b.getY() >500) {
-                    bubbles.remove(i);
-                    life--;
-                }
-            }
-
-            for (int i = 0; i < bullets.size();  i++) {
-                Bullet b = bullets.get(i);
-                b.update(); 
-
-                if(b.getY()<30){
-                    bullets.remove(i);
-                }
-
-            }
-
-            for (int i = 0; i < bubbles.size(); i++) { //chat gpt helped with collision
-                Bubble b = bubbles.get(i);
-                for (int j = 0; j < bullets.size();  j++) {
-                    Bullet bul = bullets.get(j);
-
-                    float dist = dist(bul.getX(),bul.getY(), b.getX(),b.getY());
-                    if (dist<=20){
-                        bubbles.remove(i);
-                        bullets.remove(j);
-                        score+=10;
-                    }
-                }   
-
-
-
-
-        }
-        
+            mainGame();
 
         if (life == 3){ 
             image(lives, 650, 30, 20, 20);
             image(lives, 690, 30, 20, 20);
             image(lives, 730, 30, 20, 20);
-            System.out.println("hi");
 
         }
 
@@ -113,6 +73,10 @@ public class App extends PApplet {
 
         }
 
+        if (life == 0){
+            scene = 3;
+        }
+
         color(0);
         textSize(20);
         text("Score: " + score, 20, 20);
@@ -121,7 +85,7 @@ public class App extends PApplet {
         
 
 
-        if (frameCount % 90 == 0) {
+        if (frameCount % 100 == 0) {
             bubbleMaker();
         }
        
@@ -134,6 +98,13 @@ public class App extends PApplet {
         }
 
         player.update();
+    }
+
+    if (scene == 3){
+        
+        text("Game Over", 300, 100);
+        textSize(40);
+        text("High Score: " + score, 300, 200);
     }
        
        //player.display();
@@ -193,7 +164,55 @@ public class App extends PApplet {
                 scene = 1; // switch to the game scene
             }
 
+            if (mouseX >= 260 && mouseX <= 541 && mouseY >= 367 && mouseY <= 480) {
+                scene = 2;
         }
+        
     }
 
     }
+
+    public void mainGame(){
+
+        for (int i = 0; i < bubbles.size(); i++) {
+            Bubble b = bubbles.get(i);
+            b.display();
+            b.update();
+
+            if (b.getY() >500) {
+                bubbles.remove(i);
+                life--;
+            }
+        }
+
+        for (int i = 0; i < bullets.size();  i++) {
+            Bullet b = bullets.get(i);
+            b.update(); 
+
+            if(b.getY()<30){
+                bullets.remove(i);
+            }
+
+        }
+
+        for (int i = 0; i < bubbles.size(); i++) { //chat gpt helped with collision
+            Bubble b = bubbles.get(i);
+            for (int j = 0; j < bullets.size();  j++) {
+                Bullet bul = bullets.get(j);
+
+                float dist = dist(bul.getX(),bul.getY(), b.getX(),b.getY());
+                if (dist<=20){
+                    bubbles.remove(i);
+                    bullets.remove(j);
+                    score+=10;
+                }
+            }   
+
+
+
+
+    }
+
+
+    }
+}
