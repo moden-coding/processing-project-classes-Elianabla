@@ -69,11 +69,11 @@ public class App extends PApplet {
         textSize(20);
         text("Score: " + score, 20, 20);
 
-        if(frames>50 && score % 50 == 0){
-            textSize(30);
-            text("SPEED UP", 300, 300);
-            frames -= 10;
-        }
+        // if(score == 100){
+        //     textSize(30);
+        //     text("SPEED UP", 300, 300);
+        //     frames += -20;
+        // }
 
         lives();
 
@@ -81,7 +81,7 @@ public class App extends PApplet {
         
 
 
-        if (frameCount % frames == 0) {
+        if (frames!= 0 && frameCount % frames == 0) {
             bubbleMaker();
         }
        
