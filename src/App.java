@@ -12,6 +12,8 @@ public class App extends PApplet {
     Player player;
     PImage lives;
     PImage play;
+    PImage home;
+    PImage instructions;
 
     ArrayList<Bubble> bubbles;
     ArrayList<Bullet> bullets;
@@ -21,7 +23,8 @@ public class App extends PApplet {
     int lastTimeShot = 0;
     int cooldown = 500;
     int life = 3;
-    int score = 0;
+    int score = 40;
+    int frames = 120;
 
     public static void main(String[] args) {
         PApplet.main("App");
@@ -29,13 +32,15 @@ public class App extends PApplet {
 
     public void setup() {
         player = new Player(this);
-        // 
+
         bubbles = new ArrayList<>();
         bullets = new ArrayList<>();
         firstOne = new Bubble(150, 200, this);
 
         lives = loadImage("life.png");
         play = loadImage("playreal.png");
+        home = loadImage("house.png");
+        instructions = loadImage("instructions.png");
 
     }
 
@@ -53,39 +58,30 @@ public class App extends PApplet {
 
 
         if (scene == 1) {
-            mainGame();
+            
+            collision();
+            bubbleShower();
+            bulletShower();
 
-        if (life == 3){ 
-            image(lives, 650, 30, 20, 20);
-            image(lives, 690, 30, 20, 20);
-            image(lives, 730, 30, 20, 20);
+       
 
-        }
-
-        if (life == 2){
-            image(lives, 650, 30, 20, 20);
-            image(lives, 690, 30, 20, 20);
-
-        }
-
-        if (life == 1){
-            image(lives, 650, 30, 20, 20);
-
-        }
-
-        if (life == 0){
-            scene = 3;
-        }
-
-        color(0);
+        fill(255);
         textSize(20);
         text("Score: " + score, 20, 20);
+
+        if(frames>50 && score % 50 == 0){
+            textSize(30);
+            text("SPEED UP", 300, 300);
+            frames -= 10;
+        }
+
+        lives();
 
 
         
 
 
-        if (frameCount % 100 == 0) {
+        if (frameCount % frames == 0) {
             bubbleMaker();
         }
        
@@ -105,6 +101,11 @@ public class App extends PApplet {
         text("Game Over", 300, 100);
         textSize(40);
         text("High Score: " + score, 300, 200);
+    }
+
+    if (scene == 2){
+        image(instructions, 0, 0);
+        image(home, 20, 550, 40, 40);
     }
        
        //player.display();
@@ -170,30 +171,15 @@ public class App extends PApplet {
         
     }
 
+    if (scene == 2){
+        if (mouseX >= 20 && mouseX <= 60 && mouseY >= 550 && mouseY <= 590) {
+            scene = 0;
+        }
     }
 
-    public void mainGame(){
+    }
 
-        for (int i = 0; i < bubbles.size(); i++) {
-            Bubble b = bubbles.get(i);
-            b.display();
-            b.update();
-
-            if (b.getY() >500) {
-                bubbles.remove(i);
-                life--;
-            }
-        }
-
-        for (int i = 0; i < bullets.size();  i++) {
-            Bullet b = bullets.get(i);
-            b.update(); 
-
-            if(b.getY()<30){
-                bullets.remove(i);
-            }
-
-        }
+    public void collision(){
 
         for (int i = 0; i < bubbles.size(); i++) { //chat gpt helped with collision
             Bubble b = bubbles.get(i);
@@ -214,5 +200,63 @@ public class App extends PApplet {
     }
 
 
+    }
+
+    public void bubbleShower(){
+        for (int i = 0; i < bubbles.size(); i++) {
+            Bubble b = bubbles.get(i);
+            b.display();
+            b.update();
+
+            if (b.getY() >500) {
+                bubbles.remove(i);
+                life--;
+            }
+        }
+    }
+
+    public void bulletShower(){
+        for (int i = 0; i < bullets.size();  i++) {
+            Bullet b = bullets.get(i);
+            b.update(); 
+
+            if(b.getY()<30){
+                bullets.remove(i);
+            }
+
+        }
+
+    }
+
+    public void lives(){
+        if (life == 3){ 
+            image(lives, 650, 30, 20, 20);
+            image(lives, 690, 30, 20, 20);
+            image(lives, 730, 30, 20, 20);
+
+        }
+
+        if (life == 2){
+            image(lives, 650, 30, 20, 20);
+            image(lives, 690, 30, 20, 20);
+
+        }
+
+        if (life == 1){
+            image(lives, 650, 30, 20, 20);
+
+        }
+
+        if (life == 0){
+            scene = 3;
+        }
+    }
+
+    public void resetGame(){
+        frames = 120;
+        life = 3;
+        score = 0;
+        bubbles.clear();
+        bullets.clear();
     }
 }
