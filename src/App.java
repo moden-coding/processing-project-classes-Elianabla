@@ -23,7 +23,7 @@ public class App extends PApplet {
     int lastTimeShot = 0;
     int cooldown = 500;
     int life = 3;
-    int score = 40;
+    int score = 0;
     int frames = 120;
 
     public static void main(String[] args) {
@@ -43,7 +43,7 @@ public class App extends PApplet {
         instructions = loadImage("instructions.png");
 
     }
-
+ 
     public void settings() {
         size(800, 600);
     }
