@@ -9,7 +9,7 @@ public class Player {
 
     public Player(PApplet canvas) {
         this.x = 385;
-        this.speed = 5;
+        this.speed = 6;
         this.canvas = canvas;
         y = 550;
     }
