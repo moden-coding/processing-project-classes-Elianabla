@@ -1,11 +1,12 @@
 import processing.core.*;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Paths;
 //import java.nio.file.Paths;
 import java.util.ArrayList;
 //import java.util.Scanner;
 import java.util.Scanner;
-
 
 public class App extends PApplet {
     boolean left;
@@ -21,6 +22,7 @@ public class App extends PApplet {
 
     ArrayList<Bubble> bubbles;
     ArrayList<Bullet> bullets;
+    ArrayList<Lifes> lifes;
 
     int scene = 0;
     int highScore;
@@ -41,6 +43,7 @@ public class App extends PApplet {
 
         bubbles = new ArrayList<>();
         bullets = new ArrayList<>();
+        lifes = new ArrayList<>();
         firstOne = new Bubble(150, 200, this);
 
         lives = loadImage("life.png");
@@ -48,7 +51,6 @@ public class App extends PApplet {
         home = loadImage("house.png");
         instructions = loadImage("instructions.png");
 
-      
     }
 
     public void settings() {
@@ -73,21 +75,8 @@ public class App extends PApplet {
             textSize(20);
             text("Score: " + score, 20, 20);
 
-            if (score % 100 == 0 && score > 0 && changeFrame) {
-                frames = max(20, frames - 10); // from chat gpt
-                changeFrame = false;
-                speedupTimer = 60;
-                System.out.println(frames);
-            } else if (score % 100 != 0) {
-                changeFrame = true;
-            }
-
-            if (speedupTimer > 0) {
-                textSize(30);
-                fill(255);
-                text("SPEED UP", 300, 300);
-                speedupTimer--;
-            }
+            speedUpLogic();
+            printSpeedUp();
 
             lives();
 
@@ -107,7 +96,7 @@ public class App extends PApplet {
         }
 
         if (scene == 3) {
-            text("Game Over",  300, 100);
+            text("Game Over", 300, 100);
             textSize(40);
             text("High Score: " + highScore, 300, 200);
             text("Score: " + score, 330, 300);
@@ -118,8 +107,6 @@ public class App extends PApplet {
             image(instructions, 0, 0);
             image(home, 20, 550, 40, 40);
         }
-
-        // player.display();
 
     }
 
@@ -151,8 +138,8 @@ public class App extends PApplet {
 
         }
 
-        if (scene == 3 ){
-            if (keyCode == ENTER){
+        if (scene == 3) {
+            if (keyCode == ENTER) {
                 resetGame();
 
             }
@@ -170,6 +157,13 @@ public class App extends PApplet {
         int y = 20;
         Bubble bubble = new Bubble(x, y, this);
         bubbles.add(bubble);
+    }
+
+    public void lifeMaker(){
+        int x = (int) random(700)+40;
+        int y = 20;
+        Lifes life = new Lifes(x,y,this);
+
     }
 
     public void bulletMaker() {
@@ -253,6 +247,10 @@ public class App extends PApplet {
         if (life == 2) {
             image(lives, 650, 30, 20, 20);
             image(lives, 690, 30, 20, 20);
+            lifeMaker();
+            life.display();
+            
+
 
         }
 
@@ -264,8 +262,9 @@ public class App extends PApplet {
         if (life == 0) {
             scene = 3;
             reading();
-            if (score>highScore){
+            if (score > highScore) {
                 highScore = score;
+                writing();
             }
         }
     }
@@ -276,10 +275,10 @@ public class App extends PApplet {
         score = 0;
         bubbles.clear();
         bullets.clear();
-        scene=1;
+        scene = 1;
     }
 
-    public void reading(){
+    public void reading() {
         try (Scanner scanner = new Scanner(Paths.get("file.txt"))) {
 
             // we read the file until all lines have been read
@@ -292,6 +291,39 @@ public class App extends PApplet {
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
+    }
+
+    public void writing() {
+        try (PrintWriter writer = new PrintWriter("file.txt")) {
+            writer.println(highScore); // Writes the integer to the file
+            writer.close(); // Closes the writer and saves the file
+        } catch (IOException e) {
+            System.out.println("An error occurred while writing to the file.");
+        }
+
+    }
+
+    public void speedUpLogic() {
+        if (score % 100 == 0 && score > 0 && changeFrame) {
+            frames = max(20, frames - 10); // from chat gpt
+            changeFrame = false;
+            speedupTimer = 60;
+            System.out.println(frames);
+        } else if (score % 100 != 0) {
+            changeFrame = true;
+        }
+    }
+
+    public void printSpeedUp(){
+        if (speedupTimer > 0) {
+            textSize(30);
+            fill(255);
+            text("SPEED UP", 300, 300);
+            speedupTimer--;
+        }
+    }
+
+    public void dropLifes(){
 
     }
 }
