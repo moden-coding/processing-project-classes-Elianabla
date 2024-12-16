@@ -254,11 +254,15 @@ public class App extends PApplet {
 
 
 
-            //hi
+            
+
+
         }
 
         if (life == 1) {
             image(lives, 650, 30, 20, 20);
+ 
+            
 
         }
 
