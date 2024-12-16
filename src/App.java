@@ -249,9 +249,12 @@ public class App extends PApplet {
             image(lives, 690, 30, 20, 20);
             lifeMaker();
             life.display();
-            
 
 
+
+
+
+            //hi
         }
 
         if (life == 1) {
