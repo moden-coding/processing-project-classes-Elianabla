@@ -5,8 +5,8 @@ import java.io.PrintWriter;
 import java.nio.file.Paths;
 //import java.nio.file.Paths;
 import java.util.ArrayList;
-//import java.util.Scanner;
 import java.util.Scanner;
+
 
 public class App extends PApplet {
     boolean left;
