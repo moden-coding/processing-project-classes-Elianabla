@@ -163,6 +163,7 @@ public class App extends PApplet {
         int x = (int) random(700)+40;
         int y = 20;
         Lifes life = new Lifes(x,y,this);
+        lifes.add(life);
 
     }
 
@@ -247,20 +248,21 @@ public class App extends PApplet {
         if (life == 2) {
             image(lives, 650, 30, 20, 20);
             image(lives, 690, 30, 20, 20);
-            lifeMaker();
-            life.display();
-
-
-
-
-
-            
+            if (frameCount % 600 == 0){
+                lifeMaker();
+            }
+            dropLifes();
 
 
         }
 
         if (life == 1) {
             image(lives, 650, 30, 20, 20);
+
+            if (frameCount % 200 == 0) { // drops a life every 15 seconds
+                lifeMaker();
+            }
+            dropLifes();
  
             
 
@@ -302,8 +304,8 @@ public class App extends PApplet {
 
     public void writing() {
         try (PrintWriter writer = new PrintWriter("file.txt")) {
-            writer.println(highScore); // Writes the integer to the file
-            writer.close(); // Closes the writer and saves the file
+            writer.println(highScore); // writes the integer to the file
+            writer.close(); // closes the writer and saves the file
         } catch (IOException e) {
             System.out.println("An error occurred while writing to the file.");
         }
@@ -331,6 +333,17 @@ public class App extends PApplet {
     }
 
     public void dropLifes(){
+        for (int i = lifes.size() - 1; i >= 0; i--) {
+            Lifes l = lifes.get(i);
+            l.update();
+            l.display();
+
+            if (dist(l.getX(), l.getY(), player.getX(), player.getY())<20){
+                life++;
+                lifes.remove(l);
+
+            }
 
     }
+}
 }

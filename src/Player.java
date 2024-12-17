@@ -9,7 +9,7 @@ public class Player {
 
     public Player(PApplet canvas) {
         this.x = 385;
-        this.speed = 6;
+        this.speed = 7;
         this.canvas = canvas;
         y = 550;
     }
@@ -43,6 +43,10 @@ public class Player {
 
     public int getX() {
         return x;
+    }
+
+    public int getY(){
+        return y;
     }
 
     public void stop() {

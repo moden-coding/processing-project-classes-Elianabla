@@ -7,7 +7,6 @@ public class Bubble {
     private PApplet canvas;
     private int speed;
     private int color;
-    private int health;
 
     public Bubble(int xPos, int yPos, PApplet c){
         x=xPos;
@@ -16,7 +15,6 @@ public class Bubble {
         canvas = c;
         speed = 3;
         color = canvas.color(170,210,230);
-        health =3;
 
     }
 
