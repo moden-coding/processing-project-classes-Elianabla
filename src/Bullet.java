@@ -39,5 +39,13 @@ public class Bullet {
         return bulY;
     }
 
+    //public boolean touch(int x, int y){
+        //float dist = dist(getX(), getY(), x, y);
+                //if (dist <= 20) {
+        //return true;
+          //      }
+    }
+
+
     
-}
+//}

@@ -198,12 +198,14 @@ public class App extends PApplet {
             Bubble b = bubbles.get(i);
             for (int j = 0; j < bullets.size(); j++) {
                 Bullet bul = bullets.get(j);
-
+               // if(bul.touches(b)){
+                   
                 float dist = dist(bul.getX(), bul.getY(), b.getX(), b.getY());
                 if (dist <= 20) {
                     bubbles.remove(i);
                     bullets.remove(j);
                     score += 10;
+                    
                 }
             }
 
@@ -216,11 +218,12 @@ public class App extends PApplet {
             Bubble b = bubbles.get(i);
             b.display();
             b.update();
-
-            if (b.getY() > 500) {
+            if(b.outOfBounds()){
                 bubbles.remove(i);
                 life--;
-            }
+        }
+            
+            
         }
     }
 
@@ -339,6 +342,7 @@ public class App extends PApplet {
             l.display();
 
             if (dist(l.getX(), l.getY(), player.getX(), player.getY())<20){
+                System.out.println("heart touches");
                 life++;
                 lifes.remove(l);
 

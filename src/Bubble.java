@@ -41,4 +41,10 @@ public class Bubble {
         return y;
     }
 
+    public boolean outOfBounds(){
+        if (y>500){
+            return true;
+        } else return false;
+    }
+
 }
