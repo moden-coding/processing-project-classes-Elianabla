@@ -10,7 +10,7 @@ public class App extends PApplet {
     boolean right; // keeps track if right arrow key was pressed
     boolean space; // keeps track if space bar is pressed
     Bubble firstOne;
-    Player player; 
+    Player player;
     PImage lives; // heart photo
     PImage play; // photo with play screen
     PImage home; // photo with home button
@@ -26,7 +26,7 @@ public class App extends PApplet {
     int xPosition = 385;
     int lastTimeShot = 0; // how many milliseconds ago was the last bullet shot
     int cooldown = 300; // milliseconds between bullets being shot
-    int life = 3;
+    int life = 0;
     int score = 0;
     int frames = 120;
     int speedupTimer = 0;
@@ -64,16 +64,16 @@ public class App extends PApplet {
         }
 
         if (scene == 1) {
-           sceneOne(); // everything used for scene 1 (the main game)
+            sceneOne(); // everything used for scene 1 (the main game)
         }
 
         if (scene == 3) { // ending scene (game over)
-            fill(60, 10, 166);
-            text("Game Over", 340, 100);
+            fill(129, 71, 255);
+            text("Game Over", 320, 150);
             textSize(40);
-            text("Score: " + score, 340, 200);
-            text("High Score: " + highScore, 290, 300);
-            text("Press enter to play again", 200, 400);
+            text("Score: " + score, 340, 250);
+            text("High Score: " + highScore, 290, 350);
+            text("Press enter to play again", 200, 450);
         }
 
         if (scene == 2) { // instructions page
@@ -95,7 +95,8 @@ public class App extends PApplet {
 
             if (keyCode == ' ') { // bullets will shoot
 
-                if (millis() - lastTimeShot >= cooldown) { // used from chat gpt if time minus last time is more than cooldown time then..
+                if (millis() - lastTimeShot >= cooldown) { // used from chat gpt if time minus last time is more than
+                                                           // cooldown time then..
                     lastTimeShot = millis(); // resets last shot time
                     bulletMaker(); // makes a bullet
                 }
@@ -113,7 +114,7 @@ public class App extends PApplet {
 
     }
 
-    public void sceneOne(){
+    public void sceneOne() {
         collision(); // method detecting collision
         bubbleShower(); // shows the bubbles
         bulletShower(); // showws the bullets
@@ -123,7 +124,7 @@ public class App extends PApplet {
         text("Score: " + score, 20, 20);
 
         speedUpLogic(); // speeds up how many bubbles fall
-        printSpeedUp();  // writes text saying "speed up"
+        printSpeedUp(); // writes text saying "speed up"
 
         lives();
 
@@ -162,9 +163,9 @@ public class App extends PApplet {
 
     }
 
-    public void bulletMaker() { //makes bullet
+    public void bulletMaker() { // makes bullet
         Bullet bullet = new Bullet(player.getX() + 20, 550, 5, this);
-        bullets.add(bullet); 
+        bullets.add(bullet);
     }
 
     public void mousePressed() {
@@ -189,14 +190,14 @@ public class App extends PApplet {
 
     public void collision() {
 
-        for (int i = 0; i < bubbles.size(); i++) { // chat gpt helped with collision
+        for (int i = 0; i < bubbles.size(); i++) { // chat gpt helped with collision looks thru bubbles
             Bubble b = bubbles.get(i);
-            for (int j = 0; j < bullets.size(); j++) {
+            for (int j = 0; j < bullets.size(); j++) { // looks thru bullets
                 Bullet bul = bullets.get(j);
-                if (bul.touch(b.getX(), b.getY())) {
-                    bubbles.remove(i);
+                if (bul.touch(b.getX(), b.getY())) { // if these touch then
+                    bubbles.remove(i); // remove bubble and bullet
                     bullets.remove(j);
-                    score += 10;
+                    score += 10; // increase score
                 }
 
             }
@@ -204,26 +205,26 @@ public class App extends PApplet {
 
     }
 
-    public void bubbleShower() {
+    public void bubbleShower() { // shows bubbles
         for (int i = 0; i < bubbles.size(); i++) {
             Bubble b = bubbles.get(i);
             b.display();
             b.update();
-            if (b.outOfBounds()) {
+            if (b.outOfBounds()) { // if off screen removes
                 bubbles.remove(i);
-                life--;
+                life--; // removes a life
             }
 
         }
     }
 
-    public void bulletShower() {
+    public void bulletShower() { // shows bullets
         for (int i = 0; i < bullets.size(); i++) {
-            Bullet b = bullets.get(i);
+            Bullet b = bullets.get(i); // for bullet b update it
             b.update();
 
             if (b.getY() < 30) {
-                bullets.remove(i);
+                bullets.remove(i); // remove bullet if reaches almost top of the screen
             }
 
         }
@@ -231,44 +232,44 @@ public class App extends PApplet {
     }
 
     public void lives() {
-        if (life == 3) {
+        if (life == 3) { // shows 3 lives images
             image(lives, 650, 30, 20, 20);
             image(lives, 690, 30, 20, 20);
             image(lives, 730, 30, 20, 20);
 
         }
 
-        if (life == 2) {
+        if (life == 2) { // shows 2 lives images
             image(lives, 650, 30, 20, 20);
             image(lives, 690, 30, 20, 20);
-            if (frameCount % 600 == 0) {
+            if (frameCount % 600 == 0) { // will make a live image and drop it down a live every 10 seconds
                 lifeMaker();
             }
             dropLifes();
 
         }
 
-        if (life == 1) {
+        if (life == 1) { // shows 1 live image
             image(lives, 650, 30, 20, 20);
 
-            if (frameCount % 200 == 0) { // drops a life every 15 seconds
+            if (frameCount % 600 == 0) { // makes a life every 10 seconds
                 lifeMaker();
             }
-            dropLifes();
+            dropLifes(); // drops the life down the screen
 
         }
 
         if (life == 0) {
-            scene = 3;
-            reading();
+            scene = 3; // game over screen
+            reading(); // reads high score
             if (score > highScore) {
                 highScore = score;
-                writing();
+                writing(); // if new high score write it in the file
             }
         }
     }
 
-    public void resetGame() {
+    public void resetGame() { // resets the game making it playable again
         frames = 120;
         life = 3;
         score = 0;
@@ -303,22 +304,21 @@ public class App extends PApplet {
     }
 
     public void speedUpLogic() {
-        if (score % 100 == 0 && score > 0 && changeFrame) {
-            frames = max(20, frames - 10); // from chat gpt
-            changeFrame = false;
-            speedupTimer = 60;
-            System.out.println(frames);
+        if (score % 100 == 0 && score > 0 && changeFrame) { // will speed up if score is a multiple of 100
+            frames = max(20, frames - 10); // from chat gpt but decreases the frames by 10
+            changeFrame = false; // sets boolean to false
+            speedupTimer = 60; // shows message for one second and resets the timer
         } else if (score % 100 != 0) {
             changeFrame = true;
         }
     }
 
-    public void printSpeedUp() {
+    public void printSpeedUp() { // prints the text 'speed up'
         if (speedupTimer > 0) {
             textSize(30);
             fill(255);
             text("SPEED UP", 300, 300);
-            speedupTimer--;
+            speedupTimer--; // decreases the timer
         }
     }
 
@@ -338,3 +338,5 @@ public class App extends PApplet {
         }
     }
 }
+
+//
