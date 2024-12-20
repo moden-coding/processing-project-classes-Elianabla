@@ -1,23 +1,20 @@
 import processing.core.*;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Paths;
-//import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
 public class App extends PApplet {
-    boolean left;
-    boolean right;
-    boolean space;
+    boolean left; // keeps track if left arrow key was pressed
+    boolean right; // keeps track if right arrow key was pressed
+    boolean space; // keeps track if space bar is pressed
     Bubble firstOne;
-    Player player;
-    PImage lives;
-    PImage play;
-    PImage home;
-    PImage instructions;
+    Player player; 
+    PImage lives; // heart photo
+    PImage play; // photo with play screen
+    PImage home; // photo with home button
+    PImage instructions; // photo with instructions
     boolean changeFrame;
 
     ArrayList<Bubble> bubbles;
@@ -27,8 +24,8 @@ public class App extends PApplet {
     int scene = 0;
     int highScore;
     int xPosition = 385;
-    int lastTimeShot = 0;
-    int cooldown = 300;
+    int lastTimeShot = 0; // how many milliseconds ago was the last bullet shot
+    int cooldown = 300; // milliseconds between bullets being shot
     int life = 3;
     int score = 0;
     int frames = 120;
@@ -40,12 +37,13 @@ public class App extends PApplet {
 
     public void setup() {
         player = new Player(this);
-
+        // declaring new array lsits
         bubbles = new ArrayList<>();
         bullets = new ArrayList<>();
         lifes = new ArrayList<>();
         firstOne = new Bubble(150, 200, this);
 
+        // loading in images
         lives = loadImage("life.png");
         play = loadImage("playreal.png");
         home = loadImage("house.png");
@@ -66,44 +64,19 @@ public class App extends PApplet {
         }
 
         if (scene == 1) {
-
-            collision();
-            bubbleShower();
-            bulletShower();
-
-            fill(255);
-            textSize(20);
-            text("Score: " + score, 20, 20);
-
-            speedUpLogic();
-            printSpeedUp();
-
-            lives();
-
-            if (frames != 0 && frameCount % frames == 0) {
-                bubbleMaker();
-            }
-
-            if (left) {
-                player.moveLeft();
-            }
-
-            if (right) {
-                player.moveRight();
-            }
-
-            player.update();
+           sceneOne(); // everything used for scene 1 (the main game)
         }
 
-        if (scene == 3) {
-            text("Game Over", 300, 100);
+        if (scene == 3) { // ending scene (game over)
+            fill(60, 10, 166);
+            text("Game Over", 340, 100);
             textSize(40);
-            text("High Score: " + highScore, 300, 200);
-            text("Score: " + score, 330, 300);
+            text("Score: " + score, 340, 200);
+            text("High Score: " + highScore, 290, 300);
             text("Press enter to play again", 200, 400);
         }
 
-        if (scene == 2) {
+        if (scene == 2) { // instructions page
             image(instructions, 0, 0);
             image(home, 20, 550, 40, 40);
         }
@@ -112,26 +85,19 @@ public class App extends PApplet {
 
     public void keyPressed() {
         if (scene == 1) {
-            // if (keyCode == LEFT && xPosition > 10) {
-            // left = true;
-            // } else if (keyCode == RIGHT && xPosition < 760) {
-            // right = true;
-            // }
 
             if (keyCode == LEFT || keyCode == 'A') {
-                player.moveLeft();
+                player.moveLeft(); // player moves left
 
             } else if (keyCode == RIGHT || keyCode == 'D') {
-                player.moveRight();
+                player.moveRight(); // player will move right
             }
-            // right = true;
-            // }
 
-            if (keyCode == ' ') {
+            if (keyCode == ' ') { // bullets will shoot
 
-                if (millis() - lastTimeShot >= cooldown) { // used from chat gpt
-                    lastTimeShot = millis();
-                    bulletMaker();
+                if (millis() - lastTimeShot >= cooldown) { // used from chat gpt if time minus last time is more than cooldown time then..
+                    lastTimeShot = millis(); // resets last shot time
+                    bulletMaker(); // makes a bullet
                 }
 
             }
@@ -139,7 +105,7 @@ public class App extends PApplet {
         }
 
         if (scene == 3) {
-            if (keyCode == ENTER) {
+            if (keyCode == ENTER) { // will reset the game
                 resetGame();
 
             }
@@ -147,29 +113,58 @@ public class App extends PApplet {
 
     }
 
+    public void sceneOne(){
+        collision(); // method detecting collision
+        bubbleShower(); // shows the bubbles
+        bulletShower(); // showws the bullets
+
+        fill(255);
+        textSize(20);
+        text("Score: " + score, 20, 20);
+
+        speedUpLogic(); // speeds up how many bubbles fall
+        printSpeedUp();  // writes text saying "speed up"
+
+        lives();
+
+        if (frames != 0 && frameCount % frames == 0) {
+            bubbleMaker(); // will make bubbles if frameCount is divisible by frames
+        }
+
+        if (left) {
+            player.moveLeft();
+        }
+
+        if (right) {
+            player.moveRight();
+        }
+
+        player.update();
+    }
+
     public void keyReleased() {
-        player.stop();
+        player.stop(); // player will stop moving
 
     }
 
-    public void bubbleMaker() {
+    public void bubbleMaker() { // makes bubble
         int x = (int) random(700) + 40;
         int y = 20;
         Bubble bubble = new Bubble(x, y, this);
-        bubbles.add(bubble);
+        bubbles.add(bubble); // adds bubble to array list
     }
 
-    public void lifeMaker(){
-        int x = (int) random(700)+40;
+    public void lifeMaker() { // will make a life heart drop down
+        int x = (int) random(700) + 40;
         int y = 20;
-        Lifes life = new Lifes(x,y,this);
-        lifes.add(life);
+        Lifes life = new Lifes(x, y, this);
+        lifes.add(life); // adds life to array list
 
     }
 
-    public void bulletMaker() {
+    public void bulletMaker() { //makes bullet
         Bullet bullet = new Bullet(player.getX() + 20, 550, 5, this);
-        bullets.add(bullet);
+        bullets.add(bullet); 
     }
 
     public void mousePressed() {
@@ -179,14 +174,14 @@ public class App extends PApplet {
             }
 
             if (mouseX >= 260 && mouseX <= 541 && mouseY >= 367 && mouseY <= 480) {
-                scene = 2;
+                scene = 2; // switch to instructions
             }
 
         }
 
         if (scene == 2) {
             if (mouseX >= 20 && mouseX <= 60 && mouseY >= 550 && mouseY <= 590) {
-                scene = 0;
+                scene = 0; // switch to home page
             }
         }
 
@@ -198,17 +193,13 @@ public class App extends PApplet {
             Bubble b = bubbles.get(i);
             for (int j = 0; j < bullets.size(); j++) {
                 Bullet bul = bullets.get(j);
-               // if(bul.touches(b)){
-                   
-                float dist = dist(bul.getX(), bul.getY(), b.getX(), b.getY());
-                if (dist <= 20) {
+                if (bul.touch(b.getX(), b.getY())) {
                     bubbles.remove(i);
                     bullets.remove(j);
                     score += 10;
-                    
                 }
-            }
 
+            }
         }
 
     }
@@ -218,12 +209,11 @@ public class App extends PApplet {
             Bubble b = bubbles.get(i);
             b.display();
             b.update();
-            if(b.outOfBounds()){
+            if (b.outOfBounds()) {
                 bubbles.remove(i);
                 life--;
-        }
-            
-            
+            }
+
         }
     }
 
@@ -251,11 +241,10 @@ public class App extends PApplet {
         if (life == 2) {
             image(lives, 650, 30, 20, 20);
             image(lives, 690, 30, 20, 20);
-            if (frameCount % 600 == 0){
+            if (frameCount % 600 == 0) {
                 lifeMaker();
             }
             dropLifes();
-
 
         }
 
@@ -266,8 +255,6 @@ public class App extends PApplet {
                 lifeMaker();
             }
             dropLifes();
- 
-            
 
         }
 
@@ -326,7 +313,7 @@ public class App extends PApplet {
         }
     }
 
-    public void printSpeedUp(){
+    public void printSpeedUp() {
         if (speedupTimer > 0) {
             textSize(30);
             fill(255);
@@ -335,19 +322,19 @@ public class App extends PApplet {
         }
     }
 
-    public void dropLifes(){
+    public void dropLifes() {
         for (int i = lifes.size() - 1; i >= 0; i--) {
             Lifes l = lifes.get(i);
             l.update();
             l.display();
 
-            if (dist(l.getX(), l.getY(), player.getX(), player.getY())<20){
+            if (dist(l.getX(), l.getY(), player.getX(), player.getY()) < 20) {
                 System.out.println("heart touches");
                 life++;
                 lifes.remove(l);
 
             }
 
+        }
     }
-}
 }
