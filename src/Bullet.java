@@ -1,6 +1,6 @@
 import processing.core.*;
 
-public class Bullet {
+public class Bullet { //private variables for bullet
     private int bulX;
     private int bulY;
     private int bulSpeed = 6;
@@ -16,30 +16,30 @@ public class Bullet {
 
     }
 
-    public void shoot() {
+    public void shoot() {  // bullet gets shot
         bulY -= bulSpeed;
 
     }
 
-    public void update() {
+    public void update() { // displays the shooting of the bullet
         shoot();
         canvas.fill(255, 0, 0);
         canvas.circle(bulX, bulY, 20);
 
     }
 
-    public int getX() {
+    public int getX() { //return bullets x value
         return bulX;
     }
 
-    public int getY() {
+    public int getY() { //return bullets y value
         return bulY;
     }
 
     public boolean touch(int x, int y) {
         float distance = canvas.dist(bulX, bulY, x, y);
         if (distance <= 20) {
-            return true;
+            return true; // if bullet touches player then boolean returns true
         }
         return false;
     }

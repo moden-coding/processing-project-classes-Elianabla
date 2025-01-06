@@ -1,7 +1,7 @@
 import processing.core.PApplet;
 import processing.core.PImage;
 
-public class Lifes {
+public class Lifes { //private variables for lifes class
     private int x;
     private int y;
     private int size;
@@ -21,22 +21,22 @@ public class Lifes {
     }
 
 
-    public void display(){
+    public void display(){ // displays the lifes image
         canvas.image(lifes,x,y,size,size);
        
     }
 
 
     public void update() {
-        y+=speed;
+        y+=speed; // makes lifes fall down the screen
     }
 
     
-    public int getX() {
+    public int getX() { //returns the x value of the live
         return x;
     }
 
-    public int getY() {
+    public int getY() { //returns the y value of the live
         return y;
     }
 

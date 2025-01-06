@@ -26,7 +26,7 @@ public class App extends PApplet {
     int xPosition = 385;
     int lastTimeShot = 0; // how many milliseconds ago was the last bullet shot
     int cooldown = 300; // milliseconds between bullets being shot
-    int life = 0;
+    int life = 3;
     int score = 0;
     int frames = 120;
     int speedupTimer = 0;
@@ -325,13 +325,12 @@ public class App extends PApplet {
     public void dropLifes() {
         for (int i = lifes.size() - 1; i >= 0; i--) {
             Lifes l = lifes.get(i);
-            l.update();
+            l.update(); //drops lifes
             l.display();
 
             if (dist(l.getX(), l.getY(), player.getX(), player.getY()) < 20) {
-                System.out.println("heart touches");
-                life++;
-                lifes.remove(l);
+                life++; // if player touches dropped life increase lfie
+                lifes.remove(l); //if touch remove life from screen
 
             }
 

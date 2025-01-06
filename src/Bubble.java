@@ -1,6 +1,6 @@
 import processing.core.PApplet;
 
-public class Bubble {
+public class Bubble { //private variables
     private int x;
     private int y;
     private int size;
@@ -24,19 +24,19 @@ public class Bubble {
 
     }
 
-    public void update() {
+    public void update() { //gets bubble to fall down
         y += speed;
     }
 
-    public int getX() {
+    public int getX() { // return x value
         return x;
     }
 
-    public int getY() {
+    public int getY() { //return y value
         return y;
     }
 
-    public boolean outOfBounds() {
+    public boolean outOfBounds() { // shows if bubble is too low down the screen + if so it will disappear
         if (y > 500) {
             return true;
         } else
