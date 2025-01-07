@@ -1,6 +1,6 @@
 import processing.core.PApplet;
 
-public class Player {
+public class Player { //private player variables
     private int x;
     private int y;
     private int speed;
@@ -14,24 +14,24 @@ public class Player {
         y = 550;
     }
 
-    public void moveLeft() {
+    public void moveLeft() { // left is true
         left = true;
 
     }
 
-    public void moveRight() {
+    public void moveRight() { //right is true
         right = true;
 
     }
 
-    public void update() {
+    public void update() { // if left is true then move player to the left
         if (left) {
             if (x > 10) {
                 x -= speed;
             }
         }
 
-        if (right){
+        if (right){   //if right is true then move player to the right
             if (x < 750) {
                 x += speed;
             }
@@ -41,15 +41,15 @@ public class Player {
 
     }
 
-    public int getX() {
+    public int getX() { //returns the players x value
         return x;
     }
 
-    public int getY(){
+    public int getY(){ // returns the players y value
         return y;
     }
 
-    public void stop() {
+    public void stop() { // will make it so the left and right stop moving (boolean gets set to false)
         left = false;
         right = false;
     }

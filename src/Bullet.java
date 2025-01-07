@@ -39,7 +39,7 @@ public class Bullet { //private variables for bullet
     public boolean touch(int x, int y) {
         float distance = canvas.dist(bulX, bulY, x, y);
         if (distance <= 20) {
-            return true; // if bullet touches player then boolean returns true
+            return true; // if bullet touches bubble then boolean returns true
         }
         return false;
     }
